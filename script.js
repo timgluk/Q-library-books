@@ -4,7 +4,7 @@ const form = document.querySelector('.upload')
 form.addEventListener('submit', (e) => {
   e.preventDefault()
 
-  const files = document.querySelector('[type=file]').files
+  const files = document.querySelector('.file').files
   const formData = new FormData()
 
   formData.append('login', 'String');
@@ -16,6 +16,10 @@ form.addEventListener('submit', (e) => {
   formData.append('file', files);
 
   console.log(formData);
+
+  for(let [name, value] of formData) {
+    alert(`${name} = ${value}`); // key1=value1, потом key2=value2
+  }
 
   fetch(url, {
     method: 'POST',

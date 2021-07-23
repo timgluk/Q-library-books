@@ -28,8 +28,8 @@
         <label class="add__item-txt"><input class="add__item-radio" id="write-book" type="radio" name="add-item">Написать самому</label>
         <label class="add__item-txt"><input class="add__item-radio" id="add-book" type="radio" name="add-item">Загрузить из файла</label>
       </div>
-      <form class="upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="files[]" multiple accept="text/plain" />
+      <form class="upload" method="post">
+        <input type="file" name="files" class="file"/>
         <input type="submit" value="Загрузить" name="submit" />
       </form>
     </section>
