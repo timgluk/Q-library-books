@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>My library</title>
+</head>
+<body>
+  <h1 class="my-library">Моя библиотека</h1>
+  <main class="container">
+    <section class="favorite">
+      <h2 class="favorite__title">Мои любимые книги</h2>
+      <div class="favorite__box-list">
+
+      </div>
+    </section>
+    <section class="list">
+      <h2 class="list__title">Список книг</h2>
+      <div class="list__box-list">
+
+      </div>
+    </section>
+    <section class="add">
+      <h2 class="add__title">Добавить книгу</h2>
+      <div class="add__list">
+        <label class="add__item-txt"><input class="add__item-radio" id="write-book" type="radio" name="add-item">Написать самому</label>
+        <label class="add__item-txt"><input class="add__item-radio" id="add-book" type="radio" name="add-item">Загрузить из файла</label>
+      </div>
+      <form class="upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="files[]" multiple accept="text/plain" />
+        <input type="submit" value="Загрузить" name="submit" />
+      </form>
+    </section>
+  </main>
+</body>
+<script src="script.js"></script>
+</html>
