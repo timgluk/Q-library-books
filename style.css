@@ -47,3 +47,11 @@ body {
   background-color: #eaeaea;
   cursor: pointer;
 }
+
+.upload {
+  display: none;
+}
+
+.write {
+  display: none;
+}

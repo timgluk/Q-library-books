@@ -25,12 +25,17 @@
     <section class="add">
       <h2 class="add__title">Добавить книгу</h2>
       <div class="add__list">
-        <label class="add__item-txt"><input class="add__item-radio" id="write-book" type="radio" name="add-item">Написать самому</label>
         <label class="add__item-txt"><input class="add__item-radio" id="add-book" type="radio" name="add-item">Загрузить из файла</label>
+        <label class="add__item-txt"><input class="add__item-radio" id="write-book" type="radio" name="add-item">Написать самому</label>
       </div>
       <form class="upload" method="post">
-        <input type="file" name="files" class="file"/>
-        <input type="submit" value="Загрузить" name="submit" />
+        <input type="file" name="files" class="file">
+        <input type="submit" value="Загрузить" name="submit">
+      </form>
+      <form class="write">
+        <input class="write__title-book" type="text" placeholder="Название кгини">
+        <textarea class="write__text-book" type="area">Текст</textarea>
+        <input class="write__submit" type="submit" value="Загрузить">
       </form>
     </section>
   </main>
