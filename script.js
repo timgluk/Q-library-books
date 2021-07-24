@@ -56,22 +56,46 @@ formUpload.addEventListener('submit', async (e) => {
   listBooks.push(book);
   console.log(listBooks);
   //localStorage.setItem('listBooks', JSON.stringify(listBooks));
+  listBooksAdd(book);
 });
 
 // Написать книгу
 
 submit.addEventListener('click', (e) => {
   e.preventDefault(); 
-  let obj = {
+  let book = {
     title: title.value,
     text: text.value
   };
-  console.log(obj);
-  listBooks.push(obj);
+  console.log(book);
+  listBooks.push(book);
   console.log(listBooks);
-}) ;
+  listBooksAdd(book);
+});
 
+// Список
 
-//window.addEventListener('beforeunload', () => {
-//  localStorage.setItem('listBooks', JSON.stringify(listBooks));
-//});
+const boxListBooks = document.querySelector('.list__box-list');
+
+function listBooksAdd(book) {
+  const item = document.createElement('li');
+  item.className = 'list__item';
+  item.innerHTML = book.title;
+  boxListBooks.append(item);
+
+  const clear = document.createElement('button');
+  clear.className = 'list__clear';
+  clear.innerHTML = 'X';
+  item.append(clear);
+  clear.addEventListener('click', () => {
+    
+    listBooks.splice(item.remove(), 1)
+    console.log(listBooks);
+  });
+};
+
+listBooks.forEach(book => listBooksAdd(book));
+
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem('listBooks', JSON.stringify(listBooks));
+});
