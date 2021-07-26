@@ -99,45 +99,13 @@ function listBooksAdd(book) {
   clear.innerHTML = 'X';
   clear.style.cursor = 'pointer';
   item.append(clear);
-  clear.addEventListener('click', () => {
-    item.remove();
-    for (let i = 0; i < listBooks.length; i++) {
-      if (listBooks[i].date === book.date) {
-        listBooks.splice(i, 1);
-        break;
-      }
-    };
-    console.log(listBooks);
-  });
 
   const finished = document.createElement('button');
   finished.className = 'list__finished';
   finished.innerHTML = 'прочитано';
   finished.style.cursor = 'pointer';
   clear.after(finished);
-  finished.addEventListener('click', () => {
-    for (let i = 0; i < listBooks.length; i++) {
-      if (listBooks[i].date === book.date) {
-        if (listBooks[i].read === false) {
-          listBooks[i].read = true
-          item.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
-        } else {
-          listBooks[i].read = false;
-          item.style.backgroundColor = '#fff';
-        };
-        break;
-      }
-    };
-    
-    function fn(a,b) {
-      if (a.read === false && b.read === false) { return a.date - b.date };
-      if (a.read === true && b.read === true) { return a.date - b.date };
-      if (a.read === false && b.read === true) { return b.read - a.read };
-      if (a.read === true && b.read === false) { return b.read - a.read };
-    };
-    listBooks.sort(fn);
-    console.log(listBooks);
-  });
+
   if (book.read === true) {
     item.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
   };
@@ -147,29 +115,70 @@ function listBooksAdd(book) {
   read.innerHTML = 'читать';
   read.style.cursor = 'pointer';
   finished.after(read);
-  read.addEventListener('click', () => {
-    bookBox.className = 'list__book-box';
-    bookBox.innerHTML = `<p>${book.text}</p>`;
-  });
 
   const edit = document.createElement('button');
   edit.className = 'list__edit';
   edit.innerHTML = 'редактировать';
   edit.style.cursor = 'pointer';
   read.after(edit);
-  edit.addEventListener('click', () => {
-    bookBox.className = 'list__book-box';
-    bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${book.text}</p>`;
-    const editedText = document.querySelector('.edited-text');
 
-    const ok = document.createElement('button');
-    ok.innerHTML = 'OK';
-    bookBox.append(ok);
-    ok.addEventListener('click', () => {
-      book.text = editedText.innerHTML
-      console.log(book.text);
-    });
+  item.addEventListener('click', event => {
+    if (event.target.className === 'list__clear') {
+    item.remove();
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === book.date) {
+        listBooks.splice(i, 1);
+        break;
+      }
+    };
+    console.log(listBooks);
+    };
+    
+    if (event.target.className === 'list__finished') {
+      for (let i = 0; i < listBooks.length; i++) {
+        if (listBooks[i].date === book.date) {
+          if (listBooks[i].read === false) {
+            listBooks[i].read = true
+            item.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
+          } else {
+            listBooks[i].read = false;
+            item.style.backgroundColor = '#fff';
+          };
+          break;
+        }
+      };
+      
+      function fn(a,b) {
+        if (a.read === false && b.read === false) { return a.date - b.date };
+        if (a.read === true && b.read === true) { return a.date - b.date };
+        if (a.read === false && b.read === true) { return b.read - a.read };
+        if (a.read === true && b.read === false) { return b.read - a.read };
+      };
+      listBooks.sort(fn);
+      console.log(listBooks);
+    };
+
+    if (event.target.className === 'list__read') {
+      bookBox.className = 'list__book-box';
+      bookBox.innerHTML = `<p>${book.text}</p>`;
+    };
+
+    if (event.target.className === 'list__edit') {
+      bookBox.className = 'list__book-box';
+      bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${book.text}</p>`;
+      const editedText = document.querySelector('.edited-text');
+  
+      const ok = document.createElement('button');
+      ok.className = 'list__ok'
+      ok.innerHTML = 'OK';
+      bookBox.append(ok);
+      ok.addEventListener('click', () => {
+        book.text = editedText.innerHTML
+        console.log(editedText);
+      });
+    };
   });
+
 };
 
 listBooks.forEach((book, id) => listBooksAdd(book, id));
