@@ -54,4 +54,16 @@ body {
 
 .write {
   display: none;
+
+  /* background-color: rgb(199, 167, 131); */
+}
+
+.list__book-box {
+  position: absolute;
+  left: calc(30vw + 10px);
+  display: block;
+  box-sizing: border-box;
+  width: 30vw;
+  background-color: #fff;
+  border: 1px black solid;
 }
