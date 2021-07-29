@@ -13,6 +13,8 @@ const text = document.querySelector('.write__text-book');
 
 const mainContainer = document.querySelector('.container');
 const bookBox = document.createElement('div');
+bookBox.className = 'list__book-box';
+
 mainContainer.after(bookBox);
 
 radioAdd.addEventListener('change', () => {
@@ -55,7 +57,7 @@ formUpload.addEventListener('submit', async (e) => {
   let book = {
     title: result.title,
     text: result.text,
-    date: Number(new Date()),
+    date: Date.now(),
     read: false
   };
 
@@ -74,12 +76,12 @@ submit.addEventListener('click', (e) => {
   let book = {
     title: title.value,
     text: text.value,
-    date: Number(new Date()),
+    date: Date.now(),
     read: false
   };
-  console.log(book);
+  //console.log(book);
   listBooks.push(book);
-  console.log(listBooks);
+  //console.log(listBooks);
 
   listBooksAdd(book);
 });
@@ -88,10 +90,80 @@ submit.addEventListener('click', (e) => {
 
 const boxListBooks = document.querySelector('.list__box-list');
 
+boxListBooks.addEventListener('click', (event) => {
+  const li = event.target.closest('.list__item');
+  
+  if (event.target.closest('.list__clear')) {
+    li.remove();
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        listBooks.splice(i, 1);
+        console.log(listBooks);
+        break;
+      };
+    };
+  };
+
+  if (event.target.closest('.list__finished')) {
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        if (listBooks[i].read === false) {
+          listBooks[i].read = true
+          li.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
+        } else {
+          listBooks[i].read = false;
+          li.style.backgroundColor = '#fff';
+        };
+        break;
+      }
+    };
+    function fn(a,b) {
+      if (a.read === false && b.read === false) { return a.date - b.date };
+      if (a.read === true && b.read === true) { return a.date - b.date };
+      if (a.read === false && b.read === true) { return b.read - a.read };
+      if (a.read === true && b.read === false) { return b.read - a.read };
+    };
+    listBooks.sort(fn);
+    console.log(listBooks);
+  };
+
+  if (event.target.closest('.list__read')) {
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        bookBox.innerHTML = `<p class="edited-text">${listBooks[i].text}</p>`;
+        console.log(listBooks);
+        break;
+      };
+    };
+  };
+
+  if (event.target.className === 'list__edit') {
+    const ok = document.createElement('button');
+    ok.className = 'list__ok'
+    ok.innerHTML = 'OK';
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${listBooks[i].text}</p>`;
+        const editedText = document.querySelector('.edited-text');
+        bookBox.append(ok);
+        console.log(listBooks);
+        ok.addEventListener('click', () => {
+          listBooks[i].text = editedText.innerHTML;
+          console.log(editedText);
+        });
+        break;
+      };
+    };
+  };
+});
+
 function listBooksAdd(book) {
   const item = document.createElement('li');
   item.className = 'list__item';
   item.innerHTML = book.title;
+  item.setAttribute('data-date', book.date);
+  item.setAttribute('data-finished', book.read);
+
   boxListBooks.append(item);
 
   const clear = document.createElement('button');
@@ -121,64 +193,6 @@ function listBooksAdd(book) {
   edit.innerHTML = 'редактировать';
   edit.style.cursor = 'pointer';
   read.after(edit);
-
-  item.addEventListener('click', event => {
-    if (event.target.className === 'list__clear') {
-    item.remove();
-    for (let i = 0; i < listBooks.length; i++) {
-      if (listBooks[i].date === book.date) {
-        listBooks.splice(i, 1);
-        break;
-      }
-    };
-    console.log(listBooks);
-    };
-    
-    if (event.target.className === 'list__finished') {
-      for (let i = 0; i < listBooks.length; i++) {
-        if (listBooks[i].date === book.date) {
-          if (listBooks[i].read === false) {
-            listBooks[i].read = true
-            item.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
-          } else {
-            listBooks[i].read = false;
-            item.style.backgroundColor = '#fff';
-          };
-          break;
-        }
-      };
-      
-      function fn(a,b) {
-        if (a.read === false && b.read === false) { return a.date - b.date };
-        if (a.read === true && b.read === true) { return a.date - b.date };
-        if (a.read === false && b.read === true) { return b.read - a.read };
-        if (a.read === true && b.read === false) { return b.read - a.read };
-      };
-      listBooks.sort(fn);
-      console.log(listBooks);
-    };
-
-    if (event.target.className === 'list__read') {
-      bookBox.className = 'list__book-box';
-      bookBox.innerHTML = `<p>${book.text}</p>`;
-    };
-
-    if (event.target.className === 'list__edit') {
-      bookBox.className = 'list__book-box';
-      bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${book.text}</p>`;
-      const editedText = document.querySelector('.edited-text');
-  
-      const ok = document.createElement('button');
-      ok.className = 'list__ok'
-      ok.innerHTML = 'OK';
-      bookBox.append(ok);
-      ok.addEventListener('click', () => {
-        book.text = editedText.innerHTML
-        console.log(editedText);
-      });
-    };
-  });
-
 };
 
 listBooks.forEach((book, id) => listBooksAdd(book, id));
