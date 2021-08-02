@@ -90,7 +90,9 @@ submit.addEventListener('click', (e) => {
 
 const boxListBooks = document.querySelector('.list__box-list');
 
-boxListBooks.addEventListener('click', (event) => {
+boxListBooks.addEventListener('click', () =>{ handle(event) });
+
+function handle(event) {
   const li = event.target.closest('.list__item');
   
   if (event.target.closest('.list__clear')) {
@@ -155,7 +157,7 @@ boxListBooks.addEventListener('click', (event) => {
       };
     };
   };
-});
+};
 
 function listBooksAdd(book) {
   const item = document.createElement('li');
@@ -165,7 +167,7 @@ function listBooksAdd(book) {
   item.setAttribute('data-finished', book.read);
   item.setAttribute('draggable', true);
   //item.setAttribute('draggable', true);
-  item.style.cursor = 'move';
+  //item.style.cursor = 'move';
   //cursor: move;
   //draggable="true"
 
@@ -207,10 +209,10 @@ listBooks.forEach((book, id) => listBooksAdd(book, id));
 const favorite = document.querySelector('.favorite__list');
 
 boxListBooks.addEventListener('dragstart', (event) => {
-  event.dataTransfer.effectAllowed='link';
+  event.dataTransfer.effectAllowed='copy';
   //ev.dataTransfer.effectAllowed='move';
-
   event.target.classList.add('selected');
+  event.dataTransfer.setData('content', event.target.className);
   console.log('start');
 });
 
@@ -225,14 +227,18 @@ favorite.addEventListener('drop', (event) => {
   // Разрешаем сбрасывать элементы в эту область
   //event.dataTransfer.effectAllowed='copy';
 
-  //event.dataTransfer.dropEffect = "copy";
-
   //event.preventDefault();
+  event.dataTransfer.dropEffect = 'copy';
+  console.log(event.dataTransfer.getData('content'));
 
   const activeElement = boxListBooks.querySelector('.selected');
  
   favorite.append(activeElement);
+  //favorite.append(boxListBooks.getElementsByClassName(event.dataTransfer.getData('content')));
 });
+
+favorite.addEventListener('click', () =>{ handle(event) });
+
 
 // Сохраняем
 
