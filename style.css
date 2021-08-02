@@ -61,7 +61,7 @@ body {
 .list__book-box {
   position: absolute;
   left: calc(30vw + 10px);
-  display: block;
+  display: none;
   box-sizing: border-box;
   width: 30vw;
   background-color: #fff;

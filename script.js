@@ -58,7 +58,8 @@ formUpload.addEventListener('submit', async (e) => {
     title: result.title,
     text: result.text,
     date: Date.now(),
-    read: false
+    read: false,
+    favorite: false,
   };
 
   listBooks.push(book);
@@ -77,7 +78,8 @@ submit.addEventListener('click', (e) => {
     title: title.value,
     text: text.value,
     date: Date.now(),
-    read: false
+    read: false,
+    favorite: false,
   };
   //console.log(book);
   listBooks.push(book);
@@ -87,6 +89,7 @@ submit.addEventListener('click', (e) => {
 });
 
 // Список
+const favorite = document.querySelector('.favorite__list');
 
 const boxListBooks = document.querySelector('.list__box-list');
 
@@ -132,6 +135,7 @@ function handle(event) {
   if (event.target.closest('.list__read')) {
     for (let i = 0; i < listBooks.length; i++) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        bookBox.style.display = 'block';
         bookBox.innerHTML = `<p class="edited-text">${listBooks[i].text}</p>`;
         console.log(listBooks);
         break;
@@ -145,6 +149,7 @@ function handle(event) {
     ok.innerHTML = 'OK';
     for (let i = 0; i < listBooks.length; i++) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
+        bookBox.style.display = 'block';
         bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${listBooks[i].text}</p>`;
         const editedText = document.querySelector('.edited-text');
         bookBox.append(ok);
@@ -166,12 +171,13 @@ function listBooksAdd(book) {
   item.setAttribute('data-date', book.date);
   item.setAttribute('data-finished', book.read);
   item.setAttribute('draggable', true);
-  //item.setAttribute('draggable', true);
-  //item.style.cursor = 'move';
-  //cursor: move;
-  //draggable="true"
+  item.style.cursor = 'move';
 
-  boxListBooks.append(item);
+  if (book.favorite === true) {
+    favorite.append(item);
+  } else {
+    boxListBooks.append(item);
+  };
 
   const clear = document.createElement('button');
   clear.className = 'list__clear';
@@ -206,7 +212,7 @@ listBooks.forEach((book, id) => listBooksAdd(book, id));
 
 // Drag and Drop
 
-const favorite = document.querySelector('.favorite__list');
+//const favorite = document.querySelector('.favorite__list');
 
 boxListBooks.addEventListener('dragstart', (event) => {
   event.dataTransfer.effectAllowed='copy';
@@ -235,6 +241,16 @@ favorite.addEventListener('drop', (event) => {
  
   favorite.append(activeElement);
   //favorite.append(boxListBooks.getElementsByClassName(event.dataTransfer.getData('content')));
+
+  for (let i = 0; i < listBooks.length; i++) {
+    if (listBooks[i].date === Number(activeElement.getAttribute('data-date'))) {
+      //bookBox.style.display = 'block';
+      //bookBox.innerHTML = `<p class="edited-text">${listBooks[i].text}</p>`;
+      listBooks[i].favorite = true;
+      console.log(listBooks[i].favorite);
+      break;
+    };
+  };
 });
 
 favorite.addEventListener('click', () =>{ handle(event) });
