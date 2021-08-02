@@ -163,6 +163,11 @@ function listBooksAdd(book) {
   item.innerHTML = book.title;
   item.setAttribute('data-date', book.date);
   item.setAttribute('data-finished', book.read);
+  item.setAttribute('draggable', true);
+  //item.setAttribute('draggable', true);
+  item.style.cursor = 'move';
+  //cursor: move;
+  //draggable="true"
 
   boxListBooks.append(item);
 
@@ -196,6 +201,60 @@ function listBooksAdd(book) {
 };
 
 listBooks.forEach((book, id) => listBooksAdd(book, id));
+
+// Drag and Drop
+
+const favorite = document.querySelector('.favorite__list');
+
+boxListBooks.addEventListener('dragstart', (event) => {
+  event.dataTransfer.effectAllowed='copy';
+  event.target.classList.add('selected');
+  //const ev = boxListBooks.querySelector('.selected');
+  console.log(event.dataTransfer.effectAllowed);
+  console.log('start');
+  //event.dataTransfer.effectAllowed = "copy";
+
+});
+
+boxListBooks.addEventListener('dragend', (event) => {
+  event.target.classList.remove('selected');
+  console.log('end');
+
+});
+
+favorite.addEventListener('dragover', (event) => {
+  // Разрешаем сбрасывать элементы в эту область
+
+  event.preventDefault();
+
+  // Находим перемещаемый элемент
+  const activeElement = boxListBooks.querySelector('.selected');
+  // Находим элемент, над которым в данный момент находится курсор
+  const currentElement = event.target;
+  //console.log(currentElement.classList.contains('list__item'));
+  //console.log(currentElement);
+  // Проверяем, что событие сработало:
+  // 1. не на том элементе, который мы перемещаем,
+  // 2. именно на элементе списка
+  const isMoveable = activeElement !== currentElement && currentElement.classList.contains('list__item');
+  //const isMoveable = activeElement !== currentElement;
+
+  // Если нет, прерываем выполнение функции
+  //if (!isMoveable) {
+  //  return;
+  //}
+
+  // Находим элемент, перед которым будем вставлять
+  //const nextElement = (currentElement === activeElement.nextElementSibling) ?
+  //    currentElement.nextElementSibling :
+  //    currentElement;
+
+  // Вставляем activeElement перед nextElement
+  //favorite.insertBefore(activeElement, nextElement);
+  favorite.append(activeElement);
+});
+
+// Сохраняем
 
 window.addEventListener('beforeunload', () => {
   localStorage.setItem('listBooks', JSON.stringify(listBooks));

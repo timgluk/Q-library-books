@@ -67,3 +67,25 @@ body {
   background-color: #fff;
   border: 1px black solid;
 }
+
+.selected {
+  opacity: 0.6;
+}
+
+.favorite__list {
+  min-height: 5vw;
+  padding: 0;
+  list-style-type: none;
+  border: 1px black dotted;
+}
+
+.list__box-list {
+  padding: 0;
+}
+
+.list__item {
+  margin: 10px;
+  padding: 5px;
+  list-style-type: none;
+  border: 2px black dashed;
+}
