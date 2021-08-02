@@ -1,12 +1,45 @@
+@font-face {
+  font-family: "Raleway", sans-serif;
+  src: url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;900&display=swap");
+}
+
 body {
+  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  background: no-repeat center url("/img/books-lit@2x-e1550903308223.jpeg");
+}
+
+body::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, black, rgb(155, 151, 151));
+  opacity: 0.4;
+  content: "";
+}
+
+.my-library {
+  font-weight: 500;
+  font-size: 40px;
+  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  /*align-items: center;*/
+  width: 400px;
   border: 1px black solid;
 }
 

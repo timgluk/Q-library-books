@@ -114,10 +114,10 @@ function handle(event) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
         if (listBooks[i].read === false) {
           listBooks[i].read = true
-          li.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
+          li.style.backgroundColor = 'rgb(199, 167, 131, 0.9)';
         } else {
           listBooks[i].read = false;
-          li.style.backgroundColor = '#fff';
+          li.style.backgroundColor = 'transparent';
         };
         break;
       }
