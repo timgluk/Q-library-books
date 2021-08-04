@@ -191,6 +191,7 @@ body::after {
   background-size: cover;
   border: 0;
   filter: invert(100%);
+  cursor: pointer;
 }
 
 .list__ok {
@@ -207,6 +208,7 @@ body::after {
   background-size: cover;
   border: 0;
   filter: invert(100%);
+  cursor: pointer;
 }
 
 .list__ok::after {
