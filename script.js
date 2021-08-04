@@ -117,6 +117,8 @@ function handle(event) {
           listBooks[i].read = true;
           li.style.textDecoration = 'line-through';
           li.style.fontStyle = 'italic';
+          li.setAttribute('data-finished', 'true');
+
         } else {
           listBooks[i].read = false;
           li.style.textDecoration = 'none';
@@ -131,7 +133,12 @@ function handle(event) {
       if (a.read === false && b.read === true) { return b.read - a.read };
       if (a.read === true && b.read === false) { return b.read - a.read };
     };
+
+    const arr = document.querySelectorAll('.list__item');
+    arr.forEach(e => e.remove());
     listBooks.sort(fn);
+    listBooks.forEach((book, id) => listBooksAdd(book, id));
+
     console.log(listBooks);
   };
 
