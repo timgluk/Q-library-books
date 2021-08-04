@@ -14,7 +14,7 @@ body {
   margin: 0;
   padding: 50px 0;
   color: #fff;
-  background: no-repeat center url("/img/books-lit@2x-e1550903308223.jpeg");
+  background: no-repeat center url(img/books-lit@2x-e1550903308223.jpeg);
 }
 
 body::after {
@@ -182,7 +182,7 @@ body::after {
   height: 20px;
   margin: 0;
   background-color: transparent;
-  background-image: url("/img/delete_book.png");
+  background-image: url(img/delete_book.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -199,7 +199,7 @@ body::after {
   height: 40px;
   margin: 0;
   background-color: transparent;
-  background-image: url("/img/outline_save_black_24dp.png");
+  background-image: url(img/outline_save_black_24dp.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -263,7 +263,7 @@ body::after {
   height: 20px;
   margin: 0 10px;
   background-color: transparent;
-  background-image: url("/img/delete_book.png");
+  background-image: url(img/delete_book.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -299,7 +299,7 @@ body::after {
   height: 20px;
   margin: 0 10px;
   background-color: transparent;
-  background-image: url("/img/finish_book.png");
+  background-image: url(img/finish_book.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -335,7 +335,7 @@ body::after {
   height: 20px;
   margin: 0 10px;
   background-color: transparent;
-  background-image: url("/img/reed_book2.png");
+  background-image: url(img/reed_book2.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -371,7 +371,7 @@ body::after {
   height: 20px;
   margin: 0 10px;
   background-color: transparent;
-  background-image: url("/img/edit_book.png");
+  background-image: url(img/edit_book.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
