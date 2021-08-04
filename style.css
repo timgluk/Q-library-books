@@ -114,10 +114,6 @@ body::after {
   border-radius: 30px;
 }
 
-.add__item-txt {
-  font-size: 15px;
-}
-
 .add__list {
   display: flex;
   justify-content: space-between;
@@ -130,6 +126,7 @@ body::after {
 .add__item-txt {
   display: block;
   padding: 0;
+  font-size: 15px;
 }
 
 .add__item {
@@ -190,8 +187,8 @@ body::after {
   background-position: center;
   background-size: cover;
   border: 0;
-  filter: invert(100%);
   cursor: pointer;
+  filter: invert(100%);
 }
 
 .list__ok {
@@ -207,8 +204,8 @@ body::after {
   background-position: center;
   background-size: cover;
   border: 0;
-  filter: invert(100%);
   cursor: pointer;
+  filter: invert(100%);
 }
 
 .list__ok::after {
