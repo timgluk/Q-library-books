@@ -1,6 +1,8 @@
 @font-face {
-  font-family: "Raleway", sans-serif;
-  src: url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;900&display=swap");
+  font-family: "Playfair Display", serif;
+  font-family: "Merriweather", serif;
+  font-family: "Roboto", sans-serif;
+  src: url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
 }
 
 body {
@@ -10,13 +12,13 @@ body {
   align-items: center;
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: 50px 0;
   color: #fff;
   background: no-repeat center url("/img/books-lit@2x-e1550903308223.jpeg");
 }
 
 body::after {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
@@ -29,49 +31,105 @@ body::after {
 }
 
 .my-library {
-  font-weight: 500;
-  font-size: 40px;
-  font-family: "Raleway", sans-serif;
-  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 50px;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  /*align-items: center;*/
   width: 400px;
-  border: 1px black solid;
-}
-
-.favorite {
 }
 
 .favorite__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50px;
   margin: 0;
+  font-weight: 200;
+  font-size: 30px;
+  font-family: "Merriweather", serif;
+  letter-spacing: 1.2px;
   text-align: center;
-  background-color: #b0b0b0;
+  background-color: #5cc8f3;
+  border-radius: 30px;
+}
+
+.favorite__list {
+  box-sizing: border-box;
+  min-height: 10vw;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  list-style-type: none;
+}
+
+.list__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50px;
+  margin: 0;
+  font-weight: 200;
+  font-size: 30px;
+  font-family: "Merriweather", serif;
+  letter-spacing: 1.2px;
+  text-align: center;
+  background-color: #5cc8f3;
+  border-radius: 30px;
+}
+
+.list__box-list {
+  min-height: 30px;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  list-style-type: none;
 }
 
 .add {
-  display: block;
-
-  /* background-color: #eaeaea; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+  font-family: "Roboto", sans-serif;
+  list-style-type: none;
 }
 
 .add__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
   margin: 0;
+  margin-bottom: 10px;
+  font-weight: 200;
+  font-size: 30px;
+  font-family: "Merriweather", serif;
+  letter-spacing: 1.2px;
   text-align: center;
-  background-color: #b0b0b0;
-  cursor: pointer;
+  background-color: #5cc8f3;
+  border-radius: 30px;
+}
+
+.add__item-txt {
+  font-size: 15px;
 }
 
 .add__list {
-  /* margin: 0; */
+  display: flex;
+  justify-content: space-between;
   box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 .add__item-txt {
   display: block;
+  padding: 0;
 }
 
 .add__item {
@@ -81,44 +139,266 @@ body::after {
   cursor: pointer;
 }
 
-.upload {
-  display: none;
-}
-
-.write {
-  display: none;
-
-  /* background-color: rgb(199, 167, 131); */
+.add__write {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .list__book-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s all;
+}
+
+.edited-text {
+  position: relative;
+  display: inline-block;
+  min-width: 70vw;
+  min-height: 70vh;
+  margin: 50px 100px;
+  padding: 20px;
+  color: black;
+  font-size: 25px;
+  font-family: "Merriweather", serif;
+  background-color: rgb(220, 198, 149);
+}
+
+.close-modal {
   position: absolute;
-  left: calc(30vw + 10px);
-  display: none;
-  box-sizing: border-box;
-  width: 30vw;
-  background-color: #fff;
-  border: 1px black solid;
+  top: 5vw;
+  right: 5vw;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  background-color: transparent;
+  background-image: url("/img/delete_book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+  filter: invert(100%);
+}
+
+.list__ok {
+  position: absolute;
+  top: 5vw;
+  right: 5vw;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  background-color: transparent;
+  background-image: url("/img/outline_save_black_24dp.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+  filter: invert(100%);
+}
+
+.list__ok::after {
+  position: relative;
+  right: 30px;
+  bottom: 40px;
+  z-index: 5;
+  display: block;
+  width: 70px;
+  height: 30px;
+  padding: 5px 5px;
+  color: black;
+  background-color: tomato;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  content: attr(data-tooltip); /* Выводим текст */
+  pointer-events: none;
+}
+
+.list__ok:hover::after {
+  visibility: visible;
+  opacity: 1;
 }
 
 .selected {
   opacity: 0.6;
 }
 
-.favorite__list {
-  min-height: 5vw;
-  padding: 0;
-  list-style-type: none;
-  border: 1px black dotted;
-}
-
-.list__box-list {
-  padding: 0;
-}
-
 .list__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 10px;
   padding: 5px;
+  padding-left: 20px;
   list-style-type: none;
-  border: 2px black dashed;
+  background: linear-gradient(
+    90deg,
+    rgba(202, 136, 70, 0.7),
+    rgb(231, 163, 95, 0.7)
+  );
+  border-radius: 20px;
+}
+
+.list__button-box {
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.list__clear {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background-color: transparent;
+  background-image: url("/img/delete_book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+}
+
+.list__clear::after {
+  position: relative;
+  right: 30px;
+  bottom: 40px;
+  z-index: 5;
+  display: block;
+  width: 70px;
+  height: 30px;
+  padding: 3px 0;
+  color: white;
+  background-color: tomato;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  content: attr(data-tooltip); /* Выводим текст */
+  pointer-events: none;
+}
+
+.list__clear:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.list__finished {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background-color: transparent;
+  background-image: url("/img/finish_book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+}
+
+.list__finished::after {
+  position: relative;
+  right: 30px;
+  bottom: 40px;
+  z-index: 5;
+  display: block;
+  width: 70px;
+  height: 30px;
+  padding: 3px 0;
+  color: white;
+  background-color: tomato;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  content: attr(data-tooltip); /* Выводим текст */
+  pointer-events: none;
+}
+
+.list__finished:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.list__read {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background-color: transparent;
+  background-image: url("/img/reed_book2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+}
+
+.list__read::after {
+  position: relative;
+  right: 30px;
+  bottom: 40px;
+  z-index: 5;
+  display: block;
+  width: 70px;
+  height: 30px;
+  padding: 3px 0;
+  color: white;
+  background-color: tomato;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  content: attr(data-tooltip); /* Выводим текст */
+  pointer-events: none;
+}
+
+.list__read:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.list__edit {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background-color: transparent;
+  background-image: url("/img/edit_book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 0;
+}
+
+.list__edit::after {
+  position: relative;
+  right: 30px;
+  bottom: 40px;
+  z-index: 5;
+  display: block;
+  width: 100px;
+  height: 30px;
+  padding: 3px 0;
+  color: white;
+  background-color: tomato;
+  border-radius: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  content: attr(data-tooltip); /* Выводим текст */
+  pointer-events: none;
+}
+
+.list__edit:hover::after {
+  visibility: visible;
+  opacity: 1;
 }

@@ -1,12 +1,12 @@
 const listBooks = JSON.parse(localStorage.getItem('listBooks')) ?? [];
-const formUpload = document.querySelector('.upload');
+const formUpload = document.querySelector('.add__upload');
 
 // Добавить книгу
 
 const radioAdd = document.querySelector('#add-book');
 const radioWrite = document.querySelector('#write-book');
 
-const formWrite = document.querySelector('.write');
+const formWrite = document.querySelector('.add__write');
 const submit = document.querySelector('.write__submit');
 const title = document.querySelector('.write__title-book');
 const text = document.querySelector('.write__text-book');
@@ -16,6 +16,12 @@ const bookBox = document.createElement('div');
 bookBox.className = 'list__book-box';
 
 mainContainer.after(bookBox);
+
+if (radioAdd.checked) {
+  console.log('true');
+  formUpload.style.display = 'block';
+  formWrite.style.display = 'none';
+};
 
 radioAdd.addEventListener('change', () => {
   if (radioAdd.checked) {
@@ -28,7 +34,7 @@ radioAdd.addEventListener('change', () => {
 radioWrite.addEventListener('change', () => {
   if (radioWrite.checked) {
     console.log('true');
-    formWrite.style.display = 'block';
+    formWrite.style.display = 'flex';
     formUpload.style.display = 'none';
   };
 })
@@ -64,10 +70,7 @@ formUpload.addEventListener('submit', async (e) => {
 
   listBooks.push(book);
   console.log(listBooks);
-
-  //localStorage.setItem('listBooks', JSON.stringify(listBooks));
   listBooksAdd(book);
-  //listBooksAdd(book);
 });
 
 // Написать книгу
@@ -81,14 +84,12 @@ submit.addEventListener('click', (e) => {
     read: false,
     favorite: false,
   };
-  //console.log(book);
   listBooks.push(book);
-  //console.log(listBooks);
-
   listBooksAdd(book);
 });
 
 // Список
+const main = document.querySelector('.container');
 const favorite = document.querySelector('.favorite__list');
 
 const boxListBooks = document.querySelector('.list__box-list');
@@ -113,11 +114,13 @@ function handle(event) {
     for (let i = 0; i < listBooks.length; i++) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
         if (listBooks[i].read === false) {
-          listBooks[i].read = true
-          li.style.backgroundColor = 'rgb(199, 167, 131, 0.9)';
+          listBooks[i].read = true;
+          li.style.textDecoration = 'line-through';
+          li.style.fontStyle = 'italic';
         } else {
           listBooks[i].read = false;
-          li.style.backgroundColor = 'transparent';
+          li.style.textDecoration = 'none';
+          li.style.fontStyle = 'normal';
         };
         break;
       }
@@ -135,8 +138,16 @@ function handle(event) {
   if (event.target.closest('.list__read')) {
     for (let i = 0; i < listBooks.length; i++) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
-        bookBox.style.display = 'block';
-        bookBox.innerHTML = `<p class="edited-text">${listBooks[i].text}</p>`;
+        bookBox.style.visibility = 'visible';
+        bookBox.style.opacity = 1;
+        bookBox.innerHTML = 
+        `<p class="edited-text">${listBooks[i].text}</p>
+        <button class="close-modal"></button>`;
+        const closeModal = document.querySelector('.close-modal');
+        closeModal.onclick = () => {
+          bookBox.style.visibility = 'hidden';
+          bookBox.style.opacity = 0;
+        };
         console.log(listBooks);
         break;
       };
@@ -146,17 +157,23 @@ function handle(event) {
   if (event.target.className === 'list__edit') {
     const ok = document.createElement('button');
     ok.className = 'list__ok'
-    ok.innerHTML = 'OK';
+    ok.innerHTML = '';
+    ok.setAttribute('data-tooltip', 'Сохранить изменения');
+
     for (let i = 0; i < listBooks.length; i++) {
       if (listBooks[i].date === Number(li.getAttribute('data-date'))) {
-        bookBox.style.display = 'block';
-        bookBox.innerHTML = `<p class="edited-text" contenteditable="true">${listBooks[i].text}</p>`;
+        bookBox.style.visibility = 'visible';
+        bookBox.style.opacity = 1;
+        bookBox.innerHTML = 
+        `<p class="edited-text" contenteditable="true">${listBooks[i].text}</p>`;
         const editedText = document.querySelector('.edited-text');
         bookBox.append(ok);
         console.log(listBooks);
         ok.addEventListener('click', () => {
           listBooks[i].text = editedText.innerHTML;
           console.log(editedText);
+          bookBox.style.visibility = 'hidden';
+          bookBox.style.opacity = 0;
         });
         break;
       };
@@ -179,31 +196,40 @@ function listBooksAdd(book) {
     boxListBooks.append(item);
   };
 
+  const buttonBox = document.createElement('div');
+  buttonBox.className = 'list__button-box';
+  item.append(buttonBox);
+
   const clear = document.createElement('button');
   clear.className = 'list__clear';
-  clear.innerHTML = 'X';
+  clear.innerHTML = '';
   clear.style.cursor = 'pointer';
-  item.append(clear);
+  clear.setAttribute('data-tooltip', 'Удалить книгу');
+  buttonBox.append(clear);
 
   const finished = document.createElement('button');
   finished.className = 'list__finished';
-  finished.innerHTML = 'прочитано';
+  finished.innerHTML = '';
+  finished.setAttribute('data-tooltip', 'Книга прочитана');
   finished.style.cursor = 'pointer';
   clear.after(finished);
 
   if (book.read === true) {
-    item.style.backgroundColor = 'rgb(199, 167, 131, 0.7)';
+    item.style.textDecoration = 'line-through';
+    item.style.fontStyle = 'italic';
   };
   
   const read = document.createElement('button');
   read.className = 'list__read';
-  read.innerHTML = 'читать';
+  read.innerHTML = '';
+  read.setAttribute('data-tooltip', 'Читать книгу');
   read.style.cursor = 'pointer';
   finished.after(read);
 
   const edit = document.createElement('button');
   edit.className = 'list__edit';
-  edit.innerHTML = 'редактировать';
+  edit.innerHTML = '';
+  edit.setAttribute('data-tooltip', 'Редактровать книгу');
   edit.style.cursor = 'pointer';
   read.after(edit);
 };
@@ -212,49 +238,48 @@ listBooks.forEach((book, id) => listBooksAdd(book, id));
 
 // Drag and Drop
 
-//const favorite = document.querySelector('.favorite__list');
-
-boxListBooks.addEventListener('dragstart', (event) => {
-  event.dataTransfer.effectAllowed='copy';
-  //ev.dataTransfer.effectAllowed='move';
+main.addEventListener('dragstart', (event) => {
   event.target.classList.add('selected');
-  event.dataTransfer.setData('content', event.target.className);
   console.log('start');
 });
 
-boxListBooks.addEventListener('dragend', (event) => {
+main.addEventListener('dragend', (event) => {
   event.target.classList.remove('selected');
   console.log('end');
 });
 
-favorite.ondragover = () => false;
+main.ondragover = () => false;
 
-favorite.addEventListener('drop', (event) => {
-  // Разрешаем сбрасывать элементы в эту область
-  //event.dataTransfer.effectAllowed='copy';
-
-  //event.preventDefault();
-  event.dataTransfer.dropEffect = 'copy';
-  console.log(event.dataTransfer.getData('content'));
-
-  const activeElement = boxListBooks.querySelector('.selected');
- 
-  favorite.append(activeElement);
-  //favorite.append(boxListBooks.getElementsByClassName(event.dataTransfer.getData('content')));
-
-  for (let i = 0; i < listBooks.length; i++) {
-    if (listBooks[i].date === Number(activeElement.getAttribute('data-date'))) {
-      //bookBox.style.display = 'block';
-      //bookBox.innerHTML = `<p class="edited-text">${listBooks[i].text}</p>`;
-      listBooks[i].favorite = true;
-      console.log(listBooks[i].favorite);
-      break;
+boxListBooks.addEventListener('drop', (event) => {
+  const activeElement = favorite.querySelector('.selected');
+  if (activeElement !== null) {
+    boxListBooks.append(activeElement);
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(activeElement.getAttribute('data-date'))) {
+        listBooks[i].favorite = false;
+        console.log(listBooks[i].favorite);
+        break;
+      };
     };
   };
 });
 
-favorite.addEventListener('click', () =>{ handle(event) });
+favorite.addEventListener('drop', (event) => {
+  const activeElement = boxListBooks.querySelector('.selected');
 
+  if (activeElement !== null) {
+    favorite.append(activeElement);
+    for (let i = 0; i < listBooks.length; i++) {
+      if (listBooks[i].date === Number(activeElement.getAttribute('data-date'))) {
+        listBooks[i].favorite = true;
+        console.log(listBooks[i].favorite);
+        break;
+      };
+    };
+  };
+});
+
+favorite.addEventListener('click', () =>{ handle(event) }); // работа кнопок в списке фавоитов
 
 // Сохраняем
 
