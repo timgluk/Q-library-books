@@ -253,6 +253,9 @@ main.addEventListener('dragstart', (event) => {
 main.addEventListener('dragend', (event) => {
   event.target.classList.remove('selected');
   console.log('end');
+  const arr = document.querySelectorAll('.list__item');
+  arr.forEach(e => e.remove());
+  listBooks.forEach((book, id) => listBooksAdd(book, id));
 });
 
 main.ondragover = () => false;
